@@ -676,7 +676,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/25/2012 11:48:56</publishTime>
     </File>
     <File Include="bin/MITT_HIMAWAN SUTANTO.dll">
-      <publishTime>07/26/2022 21:51:12</publishTime>
+      <publishTime>07/27/2022 02:17:22</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>02/18/2018 09:44:54</publishTime>
@@ -918,6 +918,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Images/Foto/Employee/136363 - Himawan Sutanto.jpg">
       <publishTime>03/18/2022 16:53:50</publishTime>
     </File>
+    <File Include="Images/ico.ico">
+      <publishTime>07/27/2022 02:14:09</publishTime>
+    </File>
     <File Include="Images/icon.ico">
       <publishTime>03/18/2022 16:53:50</publishTime>
     </File>
@@ -1000,19 +1003,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/26/2022 13:59:40</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>07/26/2022 13:59:40</publishTime>
+      <publishTime>07/26/2022 23:04:02</publishTime>
     </File>
     <File Include="Views/Login/Index.cshtml">
-      <publishTime>07/26/2022 15:47:38</publishTime>
+      <publishTime>07/27/2022 02:15:01</publishTime>
     </File>
     <File Include="Views/Register/Insert.cshtml">
-      <publishTime>07/26/2022 16:37:42</publishTime>
+      <publishTime>07/26/2022 22:46:41</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>07/26/2022 13:59:40</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/26/2022 20:22:09</publishTime>
+      <publishTime>07/27/2022 02:17:00</publishTime>
+    </File>
+    <File Include="Views/User/UserProfile.cshtml">
+      <publishTime>07/27/2022 01:57:52</publishTime>
+    </File>
+    <File Include="Views/User/UserSkills.cshtml">
+      <publishTime>07/26/2022 23:54:49</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>07/26/2022 20:10:10</publishTime>
@@ -1021,7 +1030,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/26/2022 13:59:40</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/26/2022 21:20:17</publishTime>
+      <publishTime>07/26/2022 22:40:01</publishTime>
     </File>
   </ItemGroup>
 </Project>
