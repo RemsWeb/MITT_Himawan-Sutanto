@@ -55,12 +55,12 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
                     string serviceUrl = Endpoint_RegisterProfile;
                     object input = new
                     {
-                        Username = model.UserName.Trim(),
-                        Name = model.Name.Trim(),
-                        Password = model.Password.Trim(),
-                        Address = model.Address.Trim(),
-                        DOB = model.DOB.Trim(),
-                        Email = model.Email
+                        Usernames = model.UserName.Trim(),
+                        Names = model.Name.Trim(),
+                        Passwords = model.Password.Trim(),
+                        Addresss = model.Address.Trim(),
+                        DOBs = GetDateInYYYYMMDD(model.DOB.Trim()),
+                        Emails = model.Email
                     };
 
 
@@ -77,10 +77,12 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
                     System.Web.Script.Serialization.JavaScriptSerializer serializer_VA = new System.Web.Script.Serialization.JavaScriptSerializer();
                     var dict = serializer_VA.Deserialize<Dictionary<string, dynamic>>(result);
                     dynamic Body_VA = (dict["InsertUserResult"]);
-                    dynamic MSG = (Body_VA["MSG"]);
-
+                    dynamic MSG = (Body_VA[0]["MSG"]);
 
                     TempData["messageRequest"] = "<script>alert('" + MSG + "');</script>";
+
+                    return RedirectToAction("Index", "Login");
+                    
                 }
             }
             catch (Exception ex)
@@ -157,5 +159,28 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
         }
         #endregion
+        public string GetDateInYYYYMMDD(string dt)
+        {
+            if (dt == "1900-01-01")
+            {
+                return dt;
+            }
+            string[] stringSeparators = new string[] { "/" };
+            string[] str = dt.Split('/');
+
+            if (str[0].Length < 4)
+            {
+                string tempdt = string.Empty;
+                for (int i = 2; i >= 0; i += -1)
+                    tempdt += str[i] + "-";
+                tempdt = tempdt.Substring(0, 10);
+                return tempdt;
+            }
+            else
+            {
+                return dt;
+            }
+        }
+
     }
 }
