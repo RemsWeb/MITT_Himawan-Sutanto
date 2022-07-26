@@ -15,7 +15,19 @@ namespace MITT_HIMAWAN_SUTANTO
         [OperationContract]
         [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json,
      UriTemplate = "/InsertUser", Method = "POST")]
-        List<InsertMessage> InsertUser(string Usernames, string Names, string Passwords, string Addresss, string DOBs, string Emails);
+        List<InsertMessage> InsertUser(string Usernames, string Names, string Passwords, string Addresss, string DOBs, string Emails, string Menu);
+
+        [OperationContract]
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json,
+     UriTemplate = "/CheckLogin", Method = "POST")]
+        List<GetDetail> CheckLogin(string Usernames, string Passwords);
+
+        [OperationContract]
+        [WebInvoke(BodyStyle = WebMessageBodyStyle.Wrapped, RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json,
+     UriTemplate = "/UpdateUser", Method = "POST")]
+        List<UpdateMEssage> UpdateUser(string Usernames, string Names, string Passwords, string Addresss, string DOBs, string Emails,string Menu);
+
+
     }
 
     [DataContract]
@@ -35,10 +47,18 @@ namespace MITT_HIMAWAN_SUTANTO
         public string DOB { get; set; }
         [DataMember]
         public string Email { get; set; }
+        [DataMember]
+        public string MSG { get; set; }
     }
 
     [DataContract]
     public class InsertMessage
+    {
+        [DataMember]
+        public string MSG { get; set; }
+
+    }
+    public class UpdateMEssage
     {
         [DataMember]
         public string MSG { get; set; }

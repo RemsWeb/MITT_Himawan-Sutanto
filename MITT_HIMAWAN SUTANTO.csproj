@@ -152,9 +152,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DataAccess\DataAccessBase.cs" />
     <Compile Include="DataAccess\InsertBase.cs" />
     <Compile Include="DataAccess\SelectBase.cs" />
+    <Compile Include="DataAccess\UpdateBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -163,17 +165,15 @@
     <Compile Include="Models\LoginModels.cs" />
     <Compile Include="Models\MenuViewModels.cs" />
     <Compile Include="Models\PagedList_RegisterModels.cs" />
+    <Compile Include="Models\PagedList_User.cs" />
     <Compile Include="Models\RegisterModels.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\CaptchaHelper.cs" />
     <Compile Include="Repository\Common.cs" />
     <Compile Include="Repository\Filters.cs" />
     <Compile Include="Repository\Helper.cs" />
     <Compile Include="Repository\LdapAuthentication.cs" />
-    <Compile Include="REST\IIInsertUser.cs" />
-    <Compile Include="REST\IInsertUser.svc.cs">
-      <DependentUpon>IInsertUser.svc</DependentUpon>
-    </Compile>
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
@@ -389,23 +389,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Images\1.jpg" />
-    <Content Include="Images\1.png" />
-    <Content Include="Images\3.png" />
-    <Content Include="Images\axa1.png" />
-    <Content Include="Images\axaMandiri - Copy.jpg" />
-    <Content Include="Images\axaMandiri.jpg" />
-    <Content Include="Images\Foto\Employee\136363 - Himawan Sutanto.jpg" />
-    <Content Include="Images\icon.ico" />
-    <Content Include="Images\Logo AXA Mandiri-01.png" />
-    <Content Include="Images\Logo MAGI 2020 %28dengan PT%29.png" />
-    <Content Include="Images\NAME_DEWA - Copy.jpg" />
-    <Content Include="Images\NAME_DEWA.jpg" />
-    <Content Include="Images\Poster MMS-01-min.jpg" />
-    <Content Include="Images\Poster MMS-01.jpg" />
-    <Content Include="Images\Poster MMS_Low-01.jpg" />
-    <Content Include="Images\ttd_Dewa.png" />
-    <Content Include="REST\IInsertUser.svc" />
+    <Content Include="Images\ico.ico" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="assets\font-awesome\4.5.0\fonts\fontawesome-webfont.eot" />
@@ -442,11 +426,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Register\Insert.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\User\UserProfile.cshtml" />
+    <Content Include="Views\User\UserSkills.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
