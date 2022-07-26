@@ -1,0 +1,305 @@
+﻿@model MITT_HIMAWAN_SUTANTO.Models.PagedList_RegisterModels<MITT_HIMAWAN_SUTANTO.Models.RegisterModels>
+
+<link href="~/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="~/assets/css/select2.min.css" rel="stylesheet" />
+@using (Html.BeginForm("Insert", "Register", FormMethod.Post))
+{
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Home</a>
+                </li>
+
+                <li>
+                    <a href="#">Mandiri Inhealth</a>
+                </li>
+                <li class="active">Register</li>
+            </ul><!-- /.breadcrumb -->
+            @*<div class="nav-search" id="nav-search">
+                    <form class="form-search">
+                        <span class="input-icon">
+                            <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off">
+                            <i class="ace-icon fa fa-search nav-search-icon"></i>
+                        </span>
+                    </form>
+                </div>*@<!-- /.nav-search -->
+        </div>
+
+        <div class="page-content">
+            <div class="ace-settings-container" id="ace-settings-container">
+                <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+                    <i class="ace-icon fa fa-cog bigger-130"></i>
+                </div>
+
+                <div class="ace-settings-box clearfix" id="ace-settings-box">
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <div class="pull-left">
+                                <select id="skin-colorpicker" class="hide">
+                                    <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                    <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                    <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                    <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                </select><div class="dropdown dropdown-colorpicker"><a data-toggle="dropdown" class="dropdown-toggle"><span class="btn-colorpicker" style="background-color:#438EB9"></span></a><ul class="dropdown-menu dropdown-caret"><li><a class="colorpick-btn selected" style="background-color:#438EB9;" data-color="#438EB9"></a></li><li><a class="colorpick-btn" style="background-color:#222A2D;" data-color="#222A2D"></a></li><li><a class="colorpick-btn" style="background-color:#C6487E;" data-color="#C6487E"></a></li><li><a class="colorpick-btn" style="background-color:#D0D0D0;" data-color="#D0D0D0"></a></li></ul></div>
+                            </div>
+                            <span>&nbsp; Choose Skin</span>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off">
+                            <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off">
+                            <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off">
+                            <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off">
+                            <label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off">
+                            <label class="lbl" for="ace-settings-add-container">
+                                Inside
+                                <b>.container</b>
+                            </label>
+                        </div>
+                    </div><!-- /.pull-left -->
+
+                    <div class="pull-left width-50">
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off">
+                            <label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off">
+                            <label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
+                        </div>
+
+                        <div class="ace-settings-item">
+                            <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off">
+                            <label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
+                        </div>
+                    </div><!-- /.pull-left -->
+                </div><!-- /.ace-settings-box -->
+            </div><!-- /.ace-settings-container -->
+
+            <div class="page-header">
+                <h1>
+                    User
+                    <small>
+                        <i class="ace-icon fa fa-angle-double-right"></i>
+                        Register
+                    </small>
+                </h1>
+            </div><!-- /.page-header -->
+            <div class="row">
+                @if (TempData["Success"] != null && TempData["Success"] != "")
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <i class="ace-icon fa fa-times"></i>
+                        </button>
+                        @TempData["Success"]
+                        <br>
+                    </div>
+                }
+                @if (TempData["Error"] != null && TempData["Error"] != "")
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">
+                            <i class="ace-icon fa fa-times"></i>
+                        </button>
+                        @TempData["Error"]
+                        <br>
+                    </div>
+                }
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            @Html.Raw(TempData["message"])
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> UserName <font color="red">*</font> </label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "col-xs-10 col-sm-5", id = "UserName", style = "width:500px;" })
+                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger", style = "Margin-left:10px" })
+
+                                    </div>
+                                </div><br /><br />
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> Name <font color="red">*</font> </label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(model => model.Name, new { @class = "col-xs-10 col-sm-5", id = "Name", style = "width:500px;" })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", style = "Margin-left:10px" })
+                                    </div>
+                                </div><br /><br />
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> Password <font color="red">*</font> </label>
+                                    <div class="col-sm-9">
+                                        @Html.PasswordFor(model => model.Password, new { @class = "col-xs-10 col-sm-5", id = "Password", style = "width:500px;" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", style = "Margin-left:10px" })
+
+                                        <input type="checkbox" onclick="myFunction()">Show Password
+                                    </div>
+                                </div><br /><br />
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> Address <font color="red">*</font> </label>
+                                    <div class="col-sm-9">
+                                        @Html.PasswordFor(model => model.Address, new { @class = "col-xs-10 col-sm-5", id = "Address", style = "width:500px;" })
+                                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger", style = "Margin-left:10px" })
+                                    </div>
+                                </div><br /><br />
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> Birth of Date <font color="red">*</font> </label>
+                                    <div class="col-sm-9">
+                                        @*@Html.TextBoxFor(model => model.Tanggal_Lahir_1, new { @class = "col-xs-10 col-sm-5", id = "Tanggal_Lahir_1" })*@
+                                        @Html.TextBoxFor(model => model.DOB, "{0:d MMM yyyy}", new { @class = "col-xs-10 col-sm-5", @placeholder = "0:d MMM yyyy", id = "DOB", autocomplete = "off" })
+
+                                    </div>
+                                </div><br /><br />
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> Email <font color="red">*</font> </label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "col-xs-10 col-sm-5", id = "Email" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", style = "Margin-left:10px" })
+                                        
+                                    </div>
+                                </div><br /><br />
+                                <div class="col-xs-12">
+                                    @Html.Raw(TempData["messageRequest"])
+                                    @Html.Raw(TempData["SuccessRequest"])
+                                    @Html.Raw(TempData["ErrorRequest"])
+                                    <b><font color="Red">@Html.Raw(TempData["CountData"])</font></b>
+                                </div><br />
+                            </form>
+                            <div>
+                                <button class="btn btn-sm btn-success" type="submit" name="submit" id="submit2" value="Add" style="height:40px; width:100px">
+                                    Register
+                                </button>
+                                <button class="btn btn-sm btn-success" type="submit" name="submit" id="submit" value="Back" style="height:40px; width:100px">
+                                    Back
+                                </button>
+
+                                <br /><br />
+                                @*<a href="javascript:history.back()" class="btn">Back to List</a>*@
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+@*<script src="~/assets/js/jquery-2.1.4.min.js"></script>
+    <script src="~/assets/js/Jquery.min.js"></script>*@
+<script src="~/assets/js/bootstrap-datepicker.min.js"></script>
+<script src="~/assets/js/select2.min.js"></script>
+<script type="text/javascript">
+    function CheckPassword(inputtxt)
+    {
+        debugger;
+        var n = parseInt(inputtxt.value.length);
+        if (n < 8)
+        {
+            document.getElementById("submit2").disabled = true;
+            alert('Minimal karakter 8 dan Maksimal karakter Password baru 12')
+            return false;
+        }
+        if (n > 12) {
+            document.getElementById("submit2").disabled = true;
+            alert('Minimal karakter 8 dan Maksimal karakter Password baru 12')
+            return false;
+        }
+
+        var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,12}$/;
+        if (inputtxt.value.match(decimal)) {
+
+            document.getElementById("submit2").disabled = false;
+            return true;
+        }
+        else {
+
+            document.getElementById("submit2").disabled = true;
+            alert('Setidaknya satu huruf kecil, satu huruf besar, satu digit angka, dan satu karakter khusus')
+            return false;
+        }
+    }
+</script>
+<script type="text/javascript">
+            function myFunction() {
+                var x = document.getElementById("Password");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+</script>
+<script type="text/javascript">
+            function myFunction2() {
+                var x = document.getElementById("NewPassword");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+</script>
+<script type="text/javascript">
+            function myFunction3() {
+                var x = document.getElementById("NewPassword2");
+                if (x.type === "password") {
+                    x.type = "text";
+                } else {
+                    x.type = "password";
+                }
+            }
+</script>
+<script type="text/javascript">
+    function onlyAlphabets(e, t) {
+        return (e.charCode > 64 && e.charCode < 91) || (e.charCode > 96 && e.charCode < 123) || e.charCode == 32;
+    }
+</script>
+<script type="text/javascript">
+    $("#Email").change(function () {
+        debugger;
+            var email = document.getElementById("Email").value;
+            var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (!expr.test(email)) {
+                alert("Invalid email address.");
+                document.getElementById("submit2").disabled = true;
+            }
+            else {
+                document.getElementById("submit2").disabled = false;
+            }
+    });
+</script>
+<script type="text/javascript">
+      $(function () {
+        $("#DOB").datepicker({
+            autoclose: true,
+            defaultDate: new Date(),
+            format: 'dd/mm/yyyy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '-100:+100',
+            todayHighlight: true
+        }).val();
+    });
+</script>
