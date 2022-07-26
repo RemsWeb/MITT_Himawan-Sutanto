@@ -197,6 +197,10 @@
                                         {
                                             ((MITT_HIMAWAN_SUTANTO.Controllers.RegisterController)this.ViewContext.Controller).get_Submenu(dr["MenuID"].ToString());
                                         }
+                                        if (Session["controller"] == "UserController")
+                                        {
+                                            ((MITT_HIMAWAN_SUTANTO.Controllers.UserController)this.ViewContext.Controller).get_Submenu(dr["MenuID"].ToString());
+                                        }
                                     }
 
                                     <b class="arrow"></b>

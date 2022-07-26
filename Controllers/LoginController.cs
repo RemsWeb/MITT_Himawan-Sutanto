@@ -11,20 +11,20 @@ using System.Web.Security;
 using System.Data.SqlClient;
 using Microsoft.Owin.Security;
 using System.Text;
-
+using System.Net.Http;
+using System.Web.Script.Serialization;
 
 namespace MITT_HIMAWAN_SUTANTO.Controllers
 {
     public class LoginController : Controller
     {
+        string Endpoint_RegisterProfile = ConfigurationManager.AppSettings["Endpoint_RegisterProfile"].ToString();
+
         // GET: Login
         [HttpGet]
         public ActionResult Index()
         {
-            Session.Remove("Rolez");
             Session.Remove("UserID");
-            Session.Remove("Company");
-            Session.Remove("Kode_Cabang");
             Session.Clear();
             Session.RemoveAll();
             Session.Abandon();
@@ -46,6 +46,74 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
                 {
                     Session["UserID"] = "Administrator";
                     return RedirectToAction("Insert", "Register");
+                }
+                else
+                {
+                    string serviceUrl = Endpoint_RegisterProfile;
+                    object input = new
+                    {
+                        Usernames = model.username.Trim(),
+                        Passwords = model.password.Trim()
+
+                    };
+
+
+                    dynamic result = null;
+                    string inputJson = (new JavaScriptSerializer()).Serialize(input);
+                    HttpClient client = new HttpClient();
+                    HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = client.PostAsync(serviceUrl + "/CheckLogin", inputContent).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        result = response.Content.ReadAsStringAsync().Result;
+                    }
+
+                    System.Web.Script.Serialization.JavaScriptSerializer serializer_VA = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    var dict = serializer_VA.Deserialize<Dictionary<string, dynamic>>(result);
+                    dynamic Body_VA = (dict["CheckLoginResult"]);
+                    dynamic MSG = "";
+                    dynamic Usernames = "";
+                    dynamic Name = "";
+                    dynamic Address = "";
+                    dynamic DOB = "";
+                    dynamic Email = "";
+                    dynamic Password = "";
+
+
+                    if (Body_VA.Count !=0)
+                    {
+                        MSG = (Body_VA[0]["MSG"]); 
+                    }
+                    
+                    if(MSG== "Data Valid")
+                    {
+                        Usernames = (Body_VA[0]["UserName"]);
+                        Name = (Body_VA[0]["Name"]);
+                        Address = (Body_VA[0]["Address"]);
+                        DOB = Convert.ToDateTime((Body_VA[0]["DOB"]));
+                        Email = (Body_VA[0]["Email"]);
+                        Password =  (Body_VA[0]["Password"]);
+
+                        Session["UserID"] = Usernames;
+                        Session["Name"] = Name;
+                        Session["DOB"] = DOB;
+                        Session["Address"] = Address;
+                        Session["Email"] = Email;
+                        Session["Password"] = Password;
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        if(MSG=="")
+                        {
+                            MSG = "Data Tidak Ada";
+                        }
+
+                        TempData["messageRequest"] = "<script>alert('" + MSG + "');</script>";
+
+                        return RedirectToAction("Index", "Login");
+                    }
                 }
             }
             catch (Exception ex)
@@ -104,6 +172,41 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
             session_value = Session["ASPFIXATION"].ToString();
             if (cookie_value != session_value)
                 Response.Redirect("Index");
+        }
+        public ActionResult LogOff()
+        {
+
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+            HttpContext.Session.Clear();
+            HttpContext.Session.Abandon();
+            //AuthenticationManager.SignOut();
+            Session.RemoveAll();
+            if (Request.Cookies["ASP.NET_SessionId"] != null)
+            {
+                Response.Cookies["ASP.NET_SessionId"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["ASP.NET_SessionId"].Value = string.Empty;
+                Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", string.Empty));
+                Response.Cookies["ASP.NET_SessionId"].HttpOnly = true;
+                Response.Cookies.Remove("ASP.NET_SessionId");
+
+                //
+
+                Response.Cookies["ASPFIXATION"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["ASPFIXATION"].Value = string.Empty;
+                Response.Cookies.Add(new HttpCookie("ASPFIXATION", string.Empty));
+                Response.Cookies["ASPFIXATION"].HttpOnly = true;
+                Response.Cookies.Add(new HttpCookie("ASPFIXATION", ""));
+                Response.Cookies.Remove("ASPFIXATION");
+                HttpContext.Request.Cookies.Clear();
+
+            }
+
+
+            //Response.Cookies.Add(new HttpCookie("ASP.NET_SessionId", ""));
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Login");
         }
 
     }

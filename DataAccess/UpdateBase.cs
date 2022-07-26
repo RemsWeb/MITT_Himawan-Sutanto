@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.Data;
 
 
 namespace MITT_HIMAWAN_SUTANTO.DataAccess
 {
-    public class InsertBase
+    public class UpdateBase
     {
-        string Conn = ConfigurationManager.ConnectionStrings["ConSql"].ConnectionString;
-        DataAccessBase DataAccess = new DataAccessBase();
-        string const_sp_INSERT_USER_PROFILE = "sp_INSERT_USER_PROFILE";
+        private string Conn = ConfigurationManager.ConnectionStrings["ConSql"].ToString();
+        private DataAccessBase DataAccess = new DataAccessBase();
 
-        public DataTable f_sp_INSERT_USER_PROFILE(string Username, string Name, string Password,
-                                              string Address, string DOB, string Email,string Menu)
+        private string const_sp_UPDATE_DATA_USER_PROFILE = "[sp_UPDATE_USER_PROFILE] ";
+        public DataTable UPDATE_DATA_USER_PROFILE(string Username, string Name, string Password,
+                                              string Address, string DOB, string Email)
         {
+
             System.Data.DataTable dt = new System.Data.DataTable();
-            
-            SqlParameter[] oParam = new SqlParameter[7];
+
+            SqlParameter[] oParam = new SqlParameter[6];
 
             oParam[0] = new SqlParameter("@Username", SqlDbType.VarChar);
             oParam[0].Value = Convert.ToString(Username);
@@ -40,14 +41,14 @@ namespace MITT_HIMAWAN_SUTANTO.DataAccess
             oParam[5] = new SqlParameter("@Email", SqlDbType.VarChar);
             oParam[5].Value = Convert.ToString(Email);
 
-            oParam[6] = new SqlParameter("@Menu", SqlDbType.VarChar);
-            oParam[6].Value = Convert.ToString(Menu);
 
             string _connectionString = Conn;
 
-            dt = DataAccess.FillDataset(_connectionString, const_sp_INSERT_USER_PROFILE, CommandType.StoredProcedure, oParam);
+            dt = DataAccess.FillDataset(_connectionString, const_sp_UPDATE_DATA_USER_PROFILE, CommandType.StoredProcedure, oParam);
 
             return dt;
+
+            // return DataAccess.ExecuteNonQuery(Conn, const_sp_UPDATE_DATA_USER_PROFILE, CommandType.StoredProcedure, oParam);
         }
     }
 }

@@ -20,39 +20,65 @@ using System.Data.OleDb;
 using BotDetect.Web.Mvc;
 using System.Net.Http;
 using System.Web.Script.Serialization;
+using System.Globalization;
 
 namespace MITT_HIMAWAN_SUTANTO.Controllers
 {
-    public class RegisterController : Controller
+    public class UserController : Controller
     {
-
         string Endpoint_RegisterProfile = ConfigurationManager.AppSettings["Endpoint_RegisterProfile"].ToString();
-        // GET: Register
-        public ActionResult Insert()
+
+        string ConnSQL = "ConSql";
+        // GET: User
+        public ActionResult UserProfile()
         {
 
-            PagedList_RegisterModels<RegisterModels> model = new PagedList_RegisterModels<RegisterModels>();
+            PagedList_User<User> model = new PagedList_User<User>();
 
             try
             {
-                DataSet ds = Get_Menu("ConSql");
+                if (Session["UserID"] == null || Session["UserID"].ToString() == "")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                DataSet ds = Get_Menu(ConnSQL);
                 Session["menu"] = ds.Tables[0];
-                Session["controller"] = "RegisterController";
+                Session["controller"] = "UserController";
+
+                ViewBag.menu = Session["menu"];
+
+                model.UserName = Session["UserID"].ToString();
+                model.Name = Session["Name"].ToString();
+                model.Address = Session["Address"].ToString();
+                model.Email = Session["Email"].ToString();
+                model.DOB = Session["DOB"].ToString();
+
+                model.Password = Session["Password"].ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
-
             return View(model);
         }
-
         [HttpPost]
-        public ActionResult Insert(PagedList_RegisterModels<RegisterModels> model = null, string Submit = "")
+        public ActionResult UserProfile(PagedList_User<User> model, string Submit)
         {
             try
             {
-                if(Submit== "Add")
+                if (Session["UserID"] == null || Session["UserID"].ToString() == "")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                DataSet ds = Get_Menu(ConnSQL);
+                Session["menu"] = ds.Tables[0];
+                Session["controller"] = "UserController";
+
+                ViewBag.menu = Session["menu"];
+
+                if(Submit=="Add")
                 {
                     string serviceUrl = Endpoint_RegisterProfile;
                     object input = new
@@ -61,9 +87,9 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
                         Names = model.Name.Trim(),
                         Passwords = model.Password.Trim(),
                         Addresss = model.Address.Trim(),
-                        DOBs = GetDateInYYYYMMDD(model.DOB.Trim()),
+                        DOBs = ConverttoFormatDate(model.DOB.Trim()),
                         Emails = model.Email,
-                        Menu = "RegisterProfile"
+                        Menu = "UserUpdate"
                     };
 
 
@@ -71,7 +97,7 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
                     string inputJson = (new JavaScriptSerializer()).Serialize(input);
                     HttpClient client = new HttpClient();
                     HttpContent inputContent = new StringContent(inputJson, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = client.PostAsync(serviceUrl + "/InsertUser", inputContent).Result;
+                    HttpResponseMessage response = client.PostAsync(serviceUrl + "/UpdateUser", inputContent).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         result = response.Content.ReadAsStringAsync().Result;
@@ -79,7 +105,7 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
                     System.Web.Script.Serialization.JavaScriptSerializer serializer_VA = new System.Web.Script.Serialization.JavaScriptSerializer();
                     var dict = serializer_VA.Deserialize<Dictionary<string, dynamic>>(result);
-                    dynamic Body_VA = (dict["InsertUserResult"]);
+                    dynamic Body_VA = (dict["UpdateUserResult"]);
                     dynamic MSG = (Body_VA[0]["MSG"]);
 
                     TempData["messageRequest"] = "<script>alert('" + MSG + "');</script>";
@@ -88,17 +114,48 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Login");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             catch (Exception ex)
-            {
-
+            { 
             }
-
             return View(model);
         }
+            
+        public ActionResult UserSkills()
+        {
+            if (Session["UserID"] == null || Session["UserID"].ToString() == "")
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
+            DataSet ds = Get_Menu(ConnSQL);
+            Session["menu"] = ds.Tables[0];
+            Session["controller"] = "UserController";
+
+            ViewBag.menu = Session["menu"];
+
+            return View();
+        }
+        private static string ConverttoFormatDate(string Date)
+        {
+            string formatDate = Date.Replace("12:00:00 AM","").Trim();
+            String sDate = Date;
+            DateTime datevalue = (Convert.ToDateTime(sDate.ToString()));
+
+            String dy = datevalue.Day.ToString();
+            String mn = datevalue.Month.ToString();
+            if(mn.Length == 1)
+            {
+                mn = "0" + mn;
+            }
+            String yy = datevalue.Year.ToString();
+
+            formatDate = yy + "-" + mn + "-" + dy;  
+
+            return formatDate;
+        }
         #region Menu
         public DataSet Get_Menu(string ConnSQL)
         {
@@ -116,11 +173,11 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
         }
 
-        public DataSet Get_SubMenu(string ParentID)
+        public DataSet Get_SubMenu(string ParentID, string ConSQL)
 
         {
 
-            SqlCommand com = new SqlCommand("exec [sp_Get_SubMenu] '" + Session["UserID"] + "',@ParentID");
+            SqlCommand com = new SqlCommand("exec [sp_Get_SubMenu] '" + Session["UserID"] + "',@ParentID", Common.GetConnection(ConnSQL));
 
             com.Parameters.AddWithValue("@ParentID", ParentID);
 
@@ -138,7 +195,7 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
         {
 
-            DataSet ds = Get_SubMenu(catid);
+            DataSet ds = Get_SubMenu(catid, (ConnSQL));
 
             List<SubMenu> submenulist = new List<SubMenu>();
 
@@ -165,6 +222,7 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
         }
         #endregion
+
         public string GetDateInYYYYMMDD(string dt)
         {
             if (dt == "1900-01-01")

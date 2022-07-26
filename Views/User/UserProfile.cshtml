@@ -1,8 +1,8 @@
-﻿@model MITT_HIMAWAN_SUTANTO.Models.PagedList_RegisterModels<MITT_HIMAWAN_SUTANTO.Models.RegisterModels>
+﻿@model MITT_HIMAWAN_SUTANTO.Models.PagedList_User<MITT_HIMAWAN_SUTANTO.Models.User>
 
 <link href="~/assets/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
 <link href="~/assets/css/select2.min.css" rel="stylesheet" />
-@using (Html.BeginForm("Insert", "Register", FormMethod.Post))
+@using (Html.BeginForm("UserProfile", "User", FormMethod.Post))
 {
     <div class="main-content-inner">
         <div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -15,7 +15,7 @@
                 <li>
                     <a href="#">Mandiri Inhealth</a>
                 </li>
-                <li class="active">Register</li>
+                <li class="active">User Profile</li>
             </ul><!-- /.breadcrumb -->
             @*<div class="nav-search" id="nav-search">
                     <form class="form-search">
@@ -100,7 +100,7 @@
                     User
                     <small>
                         <i class="ace-icon fa fa-angle-double-right"></i>
-                        Register
+                        User Profile
                     </small>
                 </h1>
             </div><!-- /.page-header -->
@@ -134,7 +134,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> UserName <font color="red">*</font> </label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(model => model.UserName, new { @class = "col-xs-10 col-sm-5", id = "UserName", style = "width:500px;" })
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "col-xs-10 col-sm-5", id = "UserName", style = "width:500px;", @readonly = "readonly" })
                                         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger", style = "Margin-left:10px" })
 
                                     </div>
@@ -150,10 +150,9 @@
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right" for="form-field-1" style="width: 200px;"> Password <font color="red">*</font> </label>
                                     <div class="col-sm-9">
-                                        @Html.PasswordFor(model => model.Password, new { @class = "col-xs-10 col-sm-5", id = "Password", style = "width:500px;" })
+                                        @Html.TextBoxFor(model => model.Password, new { @class = "col-xs-10 col-sm-5", id = "Password", style = "width:500px;" })
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", style = "Margin-left:10px" })
 
-                                        <input type="checkbox" onclick="myFunction()">Show Password
                                     </div>
                                 </div><br /><br />
                                 <div class="form-group">
@@ -177,7 +176,7 @@
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(model => model.Email, new { @class = "col-xs-10 col-sm-5", id = "Email" })
                                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger", style = "Margin-left:10px" })
-                                        
+
                                     </div>
                                 </div><br /><br />
                                 <div class="col-xs-12">
@@ -189,7 +188,7 @@
                             </form>
                             <div>
                                 <button class="btn btn-sm btn-success" type="submit" name="submit" id="submit2" value="Add" style="height:40px; width:100px">
-                                    Register
+                                    Submit
                                 </button>
                                 <button class="btn btn-sm btn-success" type="submit" name="submit" id="submit" value="Back" style="height:40px; width:100px">
                                     Back
@@ -295,7 +294,6 @@
       $(function () {
         $("#DOB").datepicker({
             autoclose: true,
-            defaultDate: new Date(),
             format: 'dd/mm/yyyy',
             changeMonth: true,
             changeYear: true,

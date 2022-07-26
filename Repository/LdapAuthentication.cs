@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace ASMIK_MAGI.Repository
+namespace MITT_HIMAWAN_SUTANTO.Repository
 {
     public class LdapAuthentication
     {

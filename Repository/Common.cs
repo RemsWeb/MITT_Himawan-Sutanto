@@ -11,7 +11,7 @@ using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 
-namespace ASMIK_MAGI.Repository
+namespace MITT_HIMAWAN_SUTANTO.Repository
 {
     public class Common
     {

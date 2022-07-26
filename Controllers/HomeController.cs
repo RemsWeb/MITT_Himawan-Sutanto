@@ -7,7 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using MITT_HIMAWAN_SUTANTO.Models;
 using System.Configuration;
-using ASMIK_MAGI.Repository;
+using MITT_HIMAWAN_SUTANTO.Repository;
 using System.Net;
 using System.Text;
 using System.Web.UI;
@@ -24,8 +24,20 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 {
     public class HomeController : Controller
     {
+
+        string ConnSQL = "ConSql";
         public ActionResult Index()
         {
+            if (Session["UserID"] == null || Session["UserID"].ToString() == "")
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            DataSet ds = Get_Menu(ConnSQL);
+            Session["menu"] = ds.Tables[0];
+            Session["controller"] = "HomeController";
+
+            ViewBag.menu = Session["menu"];
             return View();
         }
 
@@ -53,11 +65,11 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
         }
 
-        public DataSet Get_SubMenu(string ParentID)
+        public DataSet Get_SubMenu(string ParentID,string ConSQL)
 
         {
 
-            SqlCommand com = new SqlCommand("exec [sp_Get_SubMenu] '" + Session["UserID"] + "',@ParentID");
+            SqlCommand com = new SqlCommand("exec [sp_Get_SubMenu] '" + Session["UserID"] + "',@ParentID", Common.GetConnection(ConnSQL));
 
             com.Parameters.AddWithValue("@ParentID", ParentID);
 
@@ -75,7 +87,7 @@ namespace MITT_HIMAWAN_SUTANTO.Controllers
 
         {
 
-            DataSet ds = Get_SubMenu(catid);
+            DataSet ds = Get_SubMenu(catid, (ConnSQL));
 
             List<SubMenu> submenulist = new List<SubMenu>();
 

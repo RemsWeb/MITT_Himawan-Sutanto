@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Mvc;
 
-namespace ASMIK_MAGI.Repository
+namespace MITT_HIMAWAN_SUTANTO.Repository
 {
     public enum TimeUnit
     {

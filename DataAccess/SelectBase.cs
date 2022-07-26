@@ -39,7 +39,7 @@ namespace MITT_HIMAWAN_SUTANTO.DataAccess
 
             SqlParameter[] oParam = new SqlParameter[2];
 
-            oParam[0] = new SqlParameter("@Usernames", SqlDbType.VarChar);
+            oParam[0] = new SqlParameter("@Username", SqlDbType.VarChar);
             oParam[0].Value = Convert.ToString(Usernames);
 
             oParam[1] = new SqlParameter("@Password", SqlDbType.VarChar);
